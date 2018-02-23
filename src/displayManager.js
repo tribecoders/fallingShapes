@@ -64,6 +64,17 @@ class DisplayManager {
     this.mainContainer.addChild(backgroundTile);
   }
 
+  saveShape(shape){
+    let row, col;
+    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
+      for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
+        if ((shape.getShapeBitTable() & (1 << row * Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE + col)) !== 0) {
+          this.boardTiles[shape.x+col][shape.y+row] = this.colourTable[shape.name];
+        }
+      }
+    }
+  }
+
   clearRow(y) {
     let x = 0;
     for (x = 0; x <= config.MAX_WIDTH; x++) {

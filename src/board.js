@@ -15,16 +15,15 @@ class Board {
     }
   }
 
-  canMove(shape){
-    let row, col, canMove = true;
+  shapeToBoard(shape) {
+    let row, col;
     for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
-        if ((shape.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0 && this.boardTiles[shape.x + col][shape.y + row] === 1 ) {
-          canMove = false;
+        if ((shape.getShapeBitTable() & (1 << row * Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE + col)) !== 0) {
+          this.boardTiles[shape.x+col][shape.y+row] = 1
         }
       }
     }
-    return canMove
   }
 }
 

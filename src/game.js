@@ -13,7 +13,13 @@ class Game {
   }
 
   mainLoop() {
-    if (typeof this.fallingShape === 'undefined' || !this.fallingShape.moveY()) {
+    if (typeof this.fallingShape === 'undefined') {
+      this.fallingShape = this.shapeGenerator.getNewShape();
+    }
+
+    if (!this.fallingShape.moveY(this.board)) {
+      this.board.shapeToBoard(this.fallingShape);
+      this.displayManager.saveShape(this.fallingShape);
       this.fallingShape = this.shapeGenerator.getNewShape();
     }
 

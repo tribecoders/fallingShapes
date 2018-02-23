@@ -1,11 +1,11 @@
 import Shape from './shape.js'
 
 class ShapeGenerator {
-  BASE_SHAPE_NAMES = [Shape.SHAPE_NAMES.l,Shape.SHAPE_NAMES.J,Shape.SHAPE_NAMES.L,Shape.SHAPE_NAMES.O,Shape.SHAPE_NAMES.S,Shape.SHAPE_NAMES.T,Shape.SHAPE_NAMES.Z];
+  BASE_SHAPE_NAMES = [Shape.SHAPE_NAMES.l,Shape.SHAPE_NAMES.J,Shape.SHAPE_NAMES.O,Shape.SHAPE_NAMES.S,Shape.SHAPE_NAMES.T,Shape.SHAPE_NAMES.Z];
   currentShapesNames = [];
 
   getNewShape() {
-    if (this.currentShapesNames.length === 0) {
+    if (this.currentShapesNames.length <= 1 ) {
       this.currentShapesNames = [...this.BASE_SHAPE_NAMES];
     }
 

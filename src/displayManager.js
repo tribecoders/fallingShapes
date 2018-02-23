@@ -28,8 +28,8 @@ class DisplayManager {
     this.container.addChild(this.mainContainer);
     let x = 0;
     let y = 0;
-    for (x = 0; x <= config.MAX_WIDTH; x++) {
-      for (y= 0; y <= config.MAX_HEIGHT; y++) {
+    for (x = 0; x < config.MAX_WIDTH; x++) {
+      for (y= 0; y < config.MAX_HEIGHT; y++) {
         if(this.boardTiles[x][y] === 0){
           this.displayTileColour(x, y, undefined);
         } else {
@@ -44,7 +44,7 @@ class DisplayManager {
     for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for(row = 0; row<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
         if ((shape.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0) {
-          this.displayTileColour(shape.x+col, shape.y+row, this.colourTable[shape.name]);
+          this.displayTileColour(shape.x+col-1, shape.y+row-1, this.colourTable[shape.name]);
         }
       }
     }
@@ -69,7 +69,7 @@ class DisplayManager {
     for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
         if ((shape.getShapeBitTable() & (1 << row * Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE + col)) !== 0) {
-          this.boardTiles[shape.x+col][shape.y+row] = this.colourTable[shape.name];
+          this.boardTiles[shape.x+col-1][shape.y+row-1] = this.colourTable[shape.name];
         }
       }
     }

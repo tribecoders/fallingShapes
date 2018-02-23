@@ -7,7 +7,6 @@ document.body.appendChild(app.view);
 
 let currentTime = 0;
 const game = new Game(app.stage);
-
 app.ticker.add(function(delta) {
   currentTime += delta;
 

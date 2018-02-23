@@ -1,13 +1,17 @@
 /* global PIXI */
+import AssetsManager from './assetsManager.js'
+import Shape from './shape.js'
 import config from './config.js'
 
 class DisplayManager {
 
   boardTiles = [];
   mainContainer = new PIXI.Container();
+  colourTable = ['cyan', 'blue', 'orange', 'yellow', 'green', 'purple', 'red'];
 
-  constructor(assetsManager) {
-    this.assetsManager = assetsManager;
+  constructor(container) {
+    this.container = container;
+    this.assetsManager = new AssetsManager();
     this.mainContainer.position.x = window.innerWidth / 2 - config.MAX_WIDTH * config.STEP_SIZE / 2;
     this.mainContainer.position.y = window.innerHeight /2 - config.MAX_WIDTH * config.STEP_SIZE;
     let x = 0;
@@ -18,33 +22,46 @@ class DisplayManager {
         this.boardTiles[x][y] = 0;
       }
     }
-
   }
 
-  display = (context) => {
-    context.addChild(this.mainContainer);
-
+  display()  {
+    this.container.addChild(this.mainContainer);
     let x = 0;
     let y = 0;
     for (x = 0; x <= config.MAX_WIDTH; x++) {
       for (y= 0; y <= config.MAX_HEIGHT; y++) {
-        let backgroundTile;
         if(this.boardTiles[x][y] === 0){
-          backgroundTile = new PIXI.Sprite(this.assetsManager.background);
+          this.displayTileColour(x, y, undefined);
         } else {
-          backgroundTile = new PIXI.Sprite(this.assetsManager.singlesBlocks[this.boardTiles[x][y]]);
+          this.displayTileColour(x, y, this.boardTiles[x][y]);
         }
-
-        backgroundTile.x = x*config.STEP_SIZE;
-        backgroundTile.y = y*config.STEP_SIZE;
-
-        this.mainContainer.addChild(backgroundTile);
       }
     }
   }
 
-  setTileColour(x,y, colour){
-    this.boardTiles[x][y] = colour;
+  displayShape(shape) {
+    let row, col;
+    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
+      for(row = 0; row<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
+        if ((shape.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0) {
+          this.displayTileColour(shape.x+col, shape.y+row, this.colourTable[shape.name]);
+        }
+      }
+    }
+  }
+
+  displayTileColour(x, y, colour) {
+    let backgroundTile;
+    if(typeof colour === 'undefined'){
+      backgroundTile = new PIXI.Sprite(this.assetsManager.background);
+    } else {
+      backgroundTile = new PIXI.Sprite(this.assetsManager.singlesBlocks[colour]);
+    }
+
+    backgroundTile.x = x*config.STEP_SIZE;
+    backgroundTile.y = y*config.STEP_SIZE;
+
+    this.mainContainer.addChild(backgroundTile);
   }
 
   clearRow(y) {

@@ -2,13 +2,17 @@ import Board from './board.js'
 import MainScreen from './mainScreen.js'
 import ShapeGenerator from './shapeGenerator.js';
 import keyTable from './keys.js'
+import InitialScreen from "./initialScreen";
 
 class Game {
 
+  static GAME_STATES = Object.freeze({initial:'initial', main: 'main', results: 'results'});
   static GAME_EVENTS = Object.freeze({gameStart: 'gameStart', gameEnd: 'gameEnd'});
   static KEY_EVENTS = Object.freeze({up:'up', down: 'down', left: 'left', right: 'right'});
 
   constructor(container) {
+    this.state = Game.GAME_STATES.initial;
+    this.initialScreen = new InitialScreen(container);
     this.mainScreen = new MainScreen(container);
     this.board = new Board();
     this.shapeGenerator = new ShapeGenerator();
@@ -16,27 +20,34 @@ class Game {
   }
 
   mainLoop(delta) {
-    if (typeof this.fallingShape === 'undefined') {
-      this.fallingShape = this.shapeGenerator.getNewShape();
+    if (this.state === Game.GAME_STATES.initial){
+      this.initialScreen.display();
+    } else if (this.state === Game.GAME_STATES.main) {
+
+      if (typeof this.fallingShape === 'undefined') {
+        this.fallingShape = this.shapeGenerator.getNewShape();
+      }
+
+      this.handleKeyMovements();
+
+      this.currentTime += delta;
+
+      if (this.currentTime >= 30) {
+        this.currentTime = 0;
+        this.calculateMoveY();
+      }
+
+      this.mainScreen.display();
+      this.mainScreen.displayShape(this.fallingShape);
     }
-
-    this.handleKeyMovements();
-
-    this.currentTime += delta;
-
-    if (this.currentTime >= 30) {
-      this.currentTime = 0;
-      this.calculateMoveY();
-    }
-
-    this.mainScreen.display();
-    this.mainScreen.displayShape(this.fallingShape);
   }
 
   calculateMoveY() {
     if (!this.fallingShape.moveY(this.board)) {
       if (this.fallingShape.y < 0) {
+        this.state = Game.GAME_STATES.results;
         window.dispatchEvent(new CustomEvent(Game.GAME_EVENTS.gameEnd));
+        console.log('stop');
       }
 
       this.board.shapeToBoard(this.fallingShape);

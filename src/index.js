@@ -11,16 +11,17 @@ let mainLoop = (delta) => {
   game.mainLoop(delta);
 };
 
-//app.ticker.stop();
-app.ticker.stop();
 app.ticker.add(mainLoop);
 
 window.addEventListener(Game.GAME_EVENTS.gameStart, () => {
-  app.ticker.start();
+  game.state = Game.GAME_STATES.main;
+  game.initialScreen.hide();
+  //game.scoreScreen.hide();
 });
 
 window.addEventListener(Game.GAME_EVENTS.gameEnd, () => {
-  app.ticker.stop();
+  console.log('stop_event');
+  game.mainScreen.hide();
 });
 
 

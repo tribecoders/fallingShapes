@@ -91,6 +91,12 @@ class MainScreen {
       }
     }
   }
+
+  hide(){
+    for (let i  = this.container.children.length - 1; i >= 0; i--) {
+      this.container.removeChild(this.container.children[i]);
+    }
+  }
 }
 
 export default MainScreen;

@@ -23,11 +23,7 @@ class Shape {
   }
 
   moveRight(board) {
-<<<<<<< HEAD
-    if (this.canMoveOnBoard(board)) {
-=======
     if (this.canMoveOnBoard(board, 1)) {
->>>>>>> Keyboard handling added
       this.x++;
       return true;
     }
@@ -36,11 +32,7 @@ class Shape {
   }
 
   moveLeft(board) {
-<<<<<<< HEAD
-    if (this.canMoveOnBoard(board)) {
-=======
     if (this.canMoveOnBoard(board, -1)) {
->>>>>>> Keyboard handling added
       this.x--;
       return true;
     }
@@ -49,11 +41,7 @@ class Shape {
   }
 
   moveY(board) {
-<<<<<<< HEAD
-    if (this.canMoveOnBoard(board)) {
-=======
     if (this.canMoveOnBoard(board, 0)) {
->>>>>>> Keyboard handling added
       this.y++;
       return true;
     }
@@ -68,11 +56,7 @@ class Shape {
     }
   }
 
-<<<<<<< HEAD
-  canMoveOnBoard(board){
-=======
   canMoveOnBoard(board, planedXmove){
->>>>>>> Keyboard handling added
     let row, col, canMove = true;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for (row = 0; row < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {

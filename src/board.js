@@ -27,15 +27,7 @@ class Board {
   }
 
   isFieldTaken(x, y) {
-    if (y + 1  > config.MAX_HEIGHT){
-      return true;
-    }
-
-    if (x + 1  > config.MAX_WIDTH){
-      return true;
-    }
-
-    if (x - 2  < 0){
+    if (y + 1  > config.MAX_HEIGHT || x > config.MAX_WIDTH || x - 1  < 0){
       return true;
     }
 

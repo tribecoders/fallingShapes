@@ -41,6 +41,12 @@ class Game {
 
       this.board.shapeToBoard(this.fallingShape);
       this.displayManager.saveShape(this.fallingShape);
+
+      let linesToClear = this.board.findLinesToClear();
+      if (typeof linesToClear !== 'undefined' && linesToClear.length > 0) {
+        this.displayManager.clearLines(linesToClear)
+      }
+
       this.fallingShape = this.shapeGenerator.getNewShape();
     }
   }

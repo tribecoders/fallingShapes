@@ -17,8 +17,8 @@ class Board {
 
   shapeToBoard(shape) {
     let row, col;
-    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++){
-      for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++){
+    for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++){
+      for (row = 0; row <  Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++){
         if ((shape.getShapeBitTable() & (1 << row * Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE + col)) !== 0) {
           this.boardTiles[shape.x+col-1][shape.y+row-1] = 1;
         }
@@ -32,6 +32,29 @@ class Board {
     }
 
     return this.boardTiles[x-1][y-1] === 1;
+  }
+
+  findLinesToClear() {
+    let x = 0, y = 0, row, col, isLineFull, linesToDelete = [];
+    for (y = 0; y < config.MAX_HEIGHT; y++) {
+      isLineFull = true;
+      for (x = 0; x < config.MAX_WIDTH ; x++) {
+        if (this.boardTiles[x][y] === 0){
+          isLineFull = false
+        }
+      }
+
+      if (isLineFull) {
+        for (row = y; row > 0; row--) {
+          for (col = 0; col < config.MAX_WIDTH; col++) {
+            this.boardTiles[col][row] = this.boardTiles[col][row-1]
+          }
+        }
+
+        linesToDelete.push(y);
+      }
+    }
+    return linesToDelete;
   }
 }
 

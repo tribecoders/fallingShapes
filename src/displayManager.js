@@ -80,10 +80,15 @@ class DisplayManager {
     }
   }
 
-  clearRow(y) {
-    let x = 0;
-    for (x = 0; x <= config.MAX_WIDTH; x++) {
-      this.boardTiles[x][y] = 0;
+  clearLines(linesToClear) {
+    let col, row;
+    for (let lineToClear of linesToClear) {
+      for (row = lineToClear; row > 0; row--) {
+        for (col = 0; col < config.MAX_WIDTH; col++) {
+          this.boardTiles[col][row]=this.boardTiles[col][row-1];
+          this.displayTileColour(col, row, this.boardTiles[col][row]);
+        }
+      }
     }
   }
 }

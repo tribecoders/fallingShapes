@@ -6,7 +6,7 @@ class Shape {
   static NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE = 4;
 
   availableShapes = [
-    [0x4444, 0xF0, 0x2222, 0x00F0],
+    [0x4444, 0x0F00, 0x2222, 0x00F0],
     [0x44C0, 0x8E00, 0x6440, 0x0E20],
     [0x4460, 0x0E80, 0xC440, 0x2E00],
     [0xCC00, 0xCC00, 0xCC00, 0xCC00],
@@ -23,7 +23,7 @@ class Shape {
   }
 
   moveRight(board) {
-    if (this.canMoveOnBoard(board, 1)) {
+    if (this.canMoveOnBoard(board, 1, 0)) {
       this.x++;
       return true;
     }
@@ -32,7 +32,7 @@ class Shape {
   }
 
   moveLeft(board) {
-    if (this.canMoveOnBoard(board, -1)) {
+    if (this.canMoveOnBoard(board, -1, 0)) {
       this.x--;
       return true;
     }
@@ -41,7 +41,7 @@ class Shape {
   }
 
   moveY(board) {
-    if (this.canMoveOnBoard(board, 0)) {
+    if (this.canMoveOnBoard(board, 0, 1)) {
       this.y++;
       return true;
     }
@@ -49,18 +49,20 @@ class Shape {
     return false;
   }
 
-  rotate() {
-    this.rotation++;
-    if (this.rotation > this.availableShapes[this.name].length - 1) {
-      this.rotation = 0;
+  rotate(board) {
+    if (this.canMoveOnBoard(board, 0, 0, 1)) {
+      this.rotation++;
+      if (this.rotation > this.availableShapes[this.name].length - 1) {
+        this.rotation = 0;
+      }
     }
   }
 
-  canMoveOnBoard(board, planedXmove){
+  canMoveOnBoard(board, planedXmove, planedYmove, planedRotation){
     let row, col, canMove = true;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for (row = 0; row < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
-        if ((this.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0 && board.isFieldTaken(this.x + col + planedXmove, this.y + row)) {
+        if ((this.getShapeBitTable(planedRotation) & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0 && board.isFieldTaken(this.x + col + planedXmove, this.y + row +planedYmove)) {
           canMove = false;
         }
       }
@@ -69,8 +71,8 @@ class Shape {
     return canMove
   }
 
-  getShapeBitTable() {
-    return this.availableShapes[this.name][this.rotation]
+  getShapeBitTable(planedRotation = 0) {
+    return this.availableShapes[this.name][this.rotation + planedRotation]
   }
 
 

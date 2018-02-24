@@ -27,11 +27,11 @@ class Board {
   }
 
   isFieldTaken(x, y) {
-    if (y + 1  > config.MAX_HEIGHT || x > config.MAX_WIDTH || x - 1  < 0){
+    if (y > config.MAX_HEIGHT || x > config.MAX_WIDTH || x - 1  < 0){
       return true;
     }
 
-    return this.boardTiles[x-1][y] === 1;
+    return this.boardTiles[x-1][y-1] === 1;
   }
 }
 

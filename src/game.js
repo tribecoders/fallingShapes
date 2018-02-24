@@ -47,7 +47,7 @@ class Game {
 
   handleKeyMovements() {
     if (keyTable[0] === Game.KEY_EVENTS.up) {
-      this.fallingShape.rotate();
+      this.fallingShape.rotate(this.board);
       keyTable.splice(0,1);
     }
 

@@ -41,8 +41,8 @@ class DisplayManager {
 
   displayShape(shape) {
     let row, col;
-    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
-      for(row = 0; row<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
+    for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
+      for(row = 0; row < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
         if ((shape.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0) {
           this.displayTileColour(shape.x+col-1, shape.y+row-1, this.colourTable[shape.name]);
         }
@@ -51,6 +51,7 @@ class DisplayManager {
   }
 
   displayTileColour(x, y, colour) {
+
     if (y <0) {
       return;
     }
@@ -70,8 +71,8 @@ class DisplayManager {
 
   saveShape(shape){
     let row, col;
-    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
-      for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
+    for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
+      for (row = 0; row < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
         if ((shape.getShapeBitTable() & (1 << row * Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE + col)) !== 0) {
           this.boardTiles[shape.x+col-1][shape.y+row-1] = this.colourTable[shape.name];
         }

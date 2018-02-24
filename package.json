@@ -1,27 +1,6 @@
 {
   "name": "tetris",
   "version": "0.1.0",
-  "keywords": [
-    "pixi",
-    "pixi.js",
-    "pixi js",
-    "pixi 2d",
-    "pixi engine",
-    "2d engine",
-    "canvas engine",
-    "game",
-    "javascript game",
-    "bootstrap",
-    "es6",
-    "babel",
-    "pixi es6",
-    "pixi babel",
-    "pixi build",
-    "pixiv4",
-    "pixi v4",
-    "pixi setup",
-    "pixi example"
-  ],
   "scripts": {
     "start": "npm run watch",
     "watch": "webpack --config webpack.config.js --progress --inline --colors --watch",
@@ -49,5 +28,7 @@
     "transform-loader": "^0.2.3",
     "webpack": "^1.12.9",
     "webpack-notifier": "^1.5.0"
+  },
+  "dependencies": {
   }
 }

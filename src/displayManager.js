@@ -51,17 +51,21 @@ class DisplayManager {
   }
 
   displayTileColour(x, y, colour) {
-    let backgroundTile;
-    if(typeof colour === 'undefined'){
-      backgroundTile = new PIXI.Sprite(this.assetsManager.background);
-    } else {
-      backgroundTile = new PIXI.Sprite(this.assetsManager.singlesBlocks[colour]);
+    if (y <0) {
+      return;
     }
 
-    backgroundTile.x = x*config.STEP_SIZE;
-    backgroundTile.y = y*config.STEP_SIZE;
+    let tile;
+    if(typeof colour === 'undefined'){
+      tile = new PIXI.Sprite(this.assetsManager.background);
+    } else {
+      tile = new PIXI.Sprite(this.assetsManager.singlesBlocks[colour]);
+    }
 
-    this.mainContainer.addChild(backgroundTile);
+    tile.x = x*config.STEP_SIZE;
+    tile.y = y*config.STEP_SIZE;
+
+    this.mainContainer.addChild(tile);
   }
 
   saveShape(shape){

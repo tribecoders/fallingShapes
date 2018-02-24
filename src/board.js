@@ -31,6 +31,14 @@ class Board {
       return true;
     }
 
+    if (x + 1  > config.MAX_WIDTH){
+      return true;
+    }
+
+    if (x - 2  < 0){
+      return true;
+    }
+
     return this.boardTiles[x-1][y] === 1;
   }
 }

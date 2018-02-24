@@ -6,7 +6,7 @@ class Shape {
   static NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE = 4;
 
   availableShapes = [
-    [0x4444, 0x0F00, 0x2222, 0x00F0],
+    [0x4444, 0xF0, 0x2222, 0x00F0],
     [0x44C0, 0x8E00, 0x6440, 0x0E20],
     [0x4460, 0x0E80, 0xC440, 0x2E00],
     [0xCC00, 0xCC00, 0xCC00, 0xCC00],
@@ -18,41 +18,45 @@ class Shape {
   constructor(name) {
     this.name = name;
     this.rotation = 0;
-    this.x = Math.round(config.MAX_WIDTH / 2)-2;
-    this.y = 0
+    this.x = Math.round(config.MAX_WIDTH / 2) - 2;
+    this.y = -Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE;
   }
 
-  moveRight() {
-    let row, col, boardBoundary = false;
-    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
-      for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
-        if ((this.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0 && this.x + col + 1 < config.MAX_WIDTH) {
-          boardBoundary = true;
-        }
-      }
-    }
-
-    if (!boardBoundary) {
+  moveRight(board) {
+    if (this.canMoveOnBoard(board)) {
       this.x++;
+      return true;
     }
+
+    return true;
   }
 
-  moveLeft() {
-    let row, col, boardBoundary = false;
-    for(col = 0; col<=Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
-      for (row = 0; row <= Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
-        if ((this.getShapeBitTable() & (1<<row* Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE+col)) !== 0 && this.x + col -1 > 0) {
-          boardBoundary = true;
-        }
-      }
+  moveLeft(board) {
+    if (this.canMoveOnBoard(board)) {
+      this.x--;
+      return true;
     }
 
-    if (!boardBoundary) {
-      this.x--;
-    }
+    return true;
   }
 
   moveY(board) {
+    if (this.canMoveOnBoard(board)) {
+      this.y++;
+      return true;
+    }
+
+    return false;
+  }
+
+  rotate() {
+    this.rotation++;
+    if (this.rotation > this.availableShapes[this.name].length - 1) {
+      this.rotation = 0;
+    }
+  }
+
+  canMoveOnBoard(board){
     let row, col, canMove = true;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
       for (row = 0; row < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; row++) {
@@ -60,10 +64,6 @@ class Shape {
           canMove = false;
         }
       }
-    }
-
-    if (canMove) {
-      this.y++;
     }
 
     return canMove

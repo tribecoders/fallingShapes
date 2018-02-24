@@ -3,7 +3,7 @@ import AssetsManager from './assetsManager.js'
 import Shape from './shape.js'
 import config from './config.js'
 
-class DisplayManager {
+class MainScreen {
 
   boardTiles = [];
   mainContainer = new PIXI.Container();
@@ -93,4 +93,4 @@ class DisplayManager {
   }
 }
 
-export default DisplayManager;
+export default MainScreen;

@@ -1,5 +1,5 @@
 import Board from './board.js'
-import DisplayManager from './displayManager.js'
+import MainScreen from './mainScreen.js'
 import ShapeGenerator from './shapeGenerator.js';
 import keyTable from './keys.js'
 
@@ -9,7 +9,7 @@ class Game {
   static KEY_EVENTS = Object.freeze({up:'up', down: 'down', left: 'left', right: 'right'});
 
   constructor(container) {
-    this.displayManager = new DisplayManager(container);
+    this.mainScreen = new MainScreen(container);
     this.board = new Board();
     this.shapeGenerator = new ShapeGenerator();
     this.currentTime = 0;
@@ -29,8 +29,8 @@ class Game {
       this.calculateMoveY();
     }
 
-    this.displayManager.display();
-    this.displayManager.displayShape(this.fallingShape);
+    this.mainScreen.display();
+    this.mainScreen.displayShape(this.fallingShape);
   }
 
   calculateMoveY() {
@@ -40,11 +40,11 @@ class Game {
       }
 
       this.board.shapeToBoard(this.fallingShape);
-      this.displayManager.saveShape(this.fallingShape);
+      this.mainScreen.saveShape(this.fallingShape);
 
       let linesToClear = this.board.findLinesToClear();
       if (typeof linesToClear !== 'undefined' && linesToClear.length > 0) {
-        this.displayManager.clearLines(linesToClear)
+        this.mainScreen.clearLines(linesToClear)
       }
 
       this.fallingShape = this.shapeGenerator.getNewShape();

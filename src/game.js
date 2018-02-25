@@ -11,13 +11,15 @@ class Game {
   static GAME_STATES = Object.freeze({initial:'initial', main: 'main', results: 'bestScores'});
   static GAME_EVENTS = Object.freeze({gameStart: 'gameStart', gameEnd: 'gameEnd'});
   static KEY_EVENTS = Object.freeze({up:'up', down: 'down', left: 'left', right: 'right'});
+  static SPEED_TABLE = [30, 25, 20, 15, 10 , 5, 1];
+  static MAX_POINTS_PER_LEVEL = 100;
 
   constructor(container) {
     this.state = Game.GAME_STATES.initial;
     this.initialScreen = new InitialScreen(container);
     this.mainScreen = new MainScreen(container);
     this.resultScreen = new ResultScreen(container);
-    this.bestScores = new Results();
+    this.results = new Results();
     this.resetState();
 
     this.inMainGame = false;
@@ -36,15 +38,17 @@ class Game {
 
       this.currentTime += delta;
 
-      if (this.currentTime >= 30) {
+      const currentLevel = Math.floor(this.results.currentScore/Game.MAX_POINTS_PER_LEVEL);
+      const gameSpeedLength = Game.SPEED_TABLE.length;
+      if (currentLevel >= gameSpeedLength || this.currentTime >= Game.SPEED_TABLE[currentLevel]) {
         this.currentTime = 0;
         this.calculateMoveY();
       }
 
-      this.mainScreen.display(this.bestScores.currentScore);
+      this.mainScreen.display(this.results.currentScore);
       this.mainScreen.displayShape(this.fallingShape);
     } else{
-      this.resultScreen.display(this.bestScores.bestScores);
+      this.resultScreen.display(this.results.bestScores);
     }
   }
 
@@ -52,7 +56,7 @@ class Game {
     if (!this.fallingShape.moveY(this.board)) {
       if (this.fallingShape.y < 0) {
         this.state = Game.GAME_STATES.bestScores;
-        this.bestScores.storeBestScore();
+        this.results.storeBestScore();
         window.dispatchEvent(new CustomEvent(Game.GAME_EVENTS.gameEnd));
         this.inMainGame = false;
       }
@@ -63,10 +67,10 @@ class Game {
       let linesToClear = this.board.findLinesToClear();
       if (typeof linesToClear !== 'undefined' && linesToClear.length > 0) {
         this.mainScreen.clearLines(linesToClear);
-        this.bestScores.addLine(linesToClear.length)
+        this.results.addLine(linesToClear.length)
       }
 
-      this.bestScores.addElement();
+      this.results.addElement();
 
       this.fallingShape = this.shapeGenerator.getNewShape();
     }
@@ -112,7 +116,7 @@ class Game {
       this.shapeGenerator = new ShapeGenerator();
       this.currentTime = 0;
       this.mainScreen.reset();
-      this.bestScores.reset();
+      this.results.reset();
     }
   }
 }

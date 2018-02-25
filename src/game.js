@@ -4,10 +4,11 @@ import ShapeGenerator from './shapeGenerator.js';
 import keyTable from './keys.js'
 import InitialScreen from "./initialScreen.js";
 import ResultScreen from "./resultScreen.js"
+import Results from "./results.js";
 
 class Game {
 
-  static GAME_STATES = Object.freeze({initial:'initial', main: 'main', results: 'results'});
+  static GAME_STATES = Object.freeze({initial:'initial', main: 'main', results: 'bestScores'});
   static GAME_EVENTS = Object.freeze({gameStart: 'gameStart', gameEnd: 'gameEnd'});
   static KEY_EVENTS = Object.freeze({up:'up', down: 'down', left: 'left', right: 'right'});
 
@@ -16,7 +17,10 @@ class Game {
     this.initialScreen = new InitialScreen(container);
     this.mainScreen = new MainScreen(container);
     this.resultScreen = new ResultScreen(container);
+    this.bestScores = new Results();
     this.resetState();
+
+    this.inMainGame = false;
   }
 
   mainLoop(delta) {
@@ -37,18 +41,20 @@ class Game {
         this.calculateMoveY();
       }
 
-      this.mainScreen.display();
+      this.mainScreen.display(this.bestScores.currentScore);
       this.mainScreen.displayShape(this.fallingShape);
     } else{
-      this.resultScreen.display();
+      this.resultScreen.display(this.bestScores.bestScores);
     }
   }
 
   calculateMoveY() {
     if (!this.fallingShape.moveY(this.board)) {
       if (this.fallingShape.y < 0) {
-        this.state = Game.GAME_STATES.results;
+        this.state = Game.GAME_STATES.bestScores;
+        this.bestScores.storeBestScore();
         window.dispatchEvent(new CustomEvent(Game.GAME_EVENTS.gameEnd));
+        this.inMainGame = false;
       }
 
       this.board.shapeToBoard(this.fallingShape);
@@ -56,8 +62,11 @@ class Game {
 
       let linesToClear = this.board.findLinesToClear();
       if (typeof linesToClear !== 'undefined' && linesToClear.length > 0) {
-        this.mainScreen.clearLines(linesToClear)
+        this.mainScreen.clearLines(linesToClear);
+        this.bestScores.addLine(linesToClear.length)
       }
+
+      this.bestScores.addElement();
 
       this.fallingShape = this.shapeGenerator.getNewShape();
     }
@@ -89,6 +98,7 @@ class Game {
     this.state = Game.GAME_STATES.main;
     this.initialScreen.hide();
     this.resultScreen.hide();
+    this.inMainGame = true;
   }
 
   goResults() {
@@ -97,10 +107,13 @@ class Game {
   }
 
   resetState() {
-    this.board = new Board();
-    this.shapeGenerator = new ShapeGenerator();
-    this.currentTime = 0;
-    this.mainScreen.reset();
+    if (!this.inMainGame) {
+      this.board = new Board();
+      this.shapeGenerator = new ShapeGenerator();
+      this.currentTime = 0;
+      this.mainScreen.reset();
+      this.bestScores.reset();
+    }
   }
 }
 export default Game;

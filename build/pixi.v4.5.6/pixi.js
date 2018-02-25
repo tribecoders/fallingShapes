@@ -3721,7 +3721,7 @@ process.umask = function() { return 0; };
 		    k,
 		    digit,
 		    t,
-		    /** Cached calculation results */
+		    /** Cached calculation bestScores */
 		    baseMinusT;
 
 		// Handle the basic code points: let `basic` be the number of input code
@@ -3821,7 +3821,7 @@ process.umask = function() { return 0; };
 		    output = [],
 		    /** `inputLength` will hold the number of code points in `input`. */
 		    inputLength,
-		    /** Cached calculation results */
+		    /** Cached calculation bestScores */
 		    handledCPCountPlusOne,
 		    baseMinusT,
 		    qMinusT;
@@ -37030,7 +37030,7 @@ var NineSlicePlane = function (_Plane) {
 
 
     NineSlicePlane.prototype.drawSegment = function drawSegment(context, textureSource, w, h, x1, y1, x2, y2) {
-        // otherwise you get weird results when using slices of that are 0 wide or high.
+        // otherwise you get weird bestScores when using slices of that are 0 wide or high.
         var uvs = this.uvs;
         var vertices = this.vertices;
 

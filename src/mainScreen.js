@@ -15,8 +15,17 @@ class MainScreen {
     this.reset();
   }
 
-  display()  {
+  display(curentResult)  {
     this.container.addChild(this.mainContainer);
+    this.mainContainer.removeChild(this.bestScores);
+    this.bestScores = new PIXI.Text('Your score: ' + curentResult, {
+      fill: '#ffffff'
+    });
+    this.bestScores.anchor.set(0.5, 0.5);
+    this.bestScores.x = config.MAX_WIDTH * config.STEP_SIZE / 2;
+    this.bestScores.y = -20;
+    this.mainContainer.addChild(this.bestScores);
+
     let x = 0;
     let y = 0;
     for (x = 0; x < config.MAX_WIDTH; x++) {

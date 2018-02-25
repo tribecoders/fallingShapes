@@ -2,7 +2,8 @@ import Board from './board.js'
 import MainScreen from './mainScreen.js'
 import ShapeGenerator from './shapeGenerator.js';
 import keyTable from './keys.js'
-import InitialScreen from "./initialScreen";
+import InitialScreen from "./initialScreen.js";
+import ResultScreen from "./resultScreen.js"
 
 class Game {
 
@@ -14,9 +15,8 @@ class Game {
     this.state = Game.GAME_STATES.initial;
     this.initialScreen = new InitialScreen(container);
     this.mainScreen = new MainScreen(container);
-    this.board = new Board();
-    this.shapeGenerator = new ShapeGenerator();
-    this.currentTime = 0;
+    this.resultScreen = new ResultScreen(container);
+    this.resetState();
   }
 
   mainLoop(delta) {
@@ -39,6 +39,8 @@ class Game {
 
       this.mainScreen.display();
       this.mainScreen.displayShape(this.fallingShape);
+    } else{
+      this.resultScreen.display();
     }
   }
 
@@ -47,7 +49,6 @@ class Game {
       if (this.fallingShape.y < 0) {
         this.state = Game.GAME_STATES.results;
         window.dispatchEvent(new CustomEvent(Game.GAME_EVENTS.gameEnd));
-        console.log('stop');
       }
 
       this.board.shapeToBoard(this.fallingShape);
@@ -82,6 +83,24 @@ class Game {
       this.calculateMoveY();
       keyTable.splice(0,1);
     }
+  }
+
+  goMainGame() {
+    this.state = Game.GAME_STATES.main;
+    this.initialScreen.hide();
+    this.resultScreen.hide();
+  }
+
+  goResults() {
+    this.state = Game.GAME_STATES.result;
+    this.mainScreen.hide();
+  }
+
+  resetState() {
+    this.board = new Board();
+    this.shapeGenerator = new ShapeGenerator();
+    this.currentTime = 0;
+    this.mainScreen.reset();
   }
 }
 export default Game;

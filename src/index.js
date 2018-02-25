@@ -14,14 +14,12 @@ let mainLoop = (delta) => {
 app.ticker.add(mainLoop);
 
 window.addEventListener(Game.GAME_EVENTS.gameStart, () => {
-  game.state = Game.GAME_STATES.main;
-  game.initialScreen.hide();
-  //game.scoreScreen.hide();
+  game.resetState();
+  game.goMainGame();
 });
 
 window.addEventListener(Game.GAME_EVENTS.gameEnd, () => {
-  console.log('stop_event');
-  game.mainScreen.hide();
+  game.goResults();
 });
 
 

@@ -6,22 +6,13 @@ import config from './config.js'
 class MainScreen {
 
   boardTiles = [];
-  mainContainer = new PIXI.Container();
+
   colourTable = ['cyan', 'blue', 'orange', 'yellow', 'green', 'purple', 'red'];
 
   constructor(container) {
     this.container = container;
     this.assetsManager = new AssetsManager();
-    this.mainContainer.position.x = window.innerWidth / 2 - config.MAX_WIDTH * config.STEP_SIZE / 2;
-    this.mainContainer.position.y = window.innerHeight /2 - config.MAX_WIDTH * config.STEP_SIZE;
-    let x = 0;
-    let y = 0;
-    for (x = 0; x <= config.MAX_WIDTH; x++) {
-      this.boardTiles[x] = [];
-      for (y = 0; y <= config.MAX_HEIGHT; y++) {
-        this.boardTiles[x][y] = 0;
-      }
-    }
+    this.reset();
   }
 
   display()  {
@@ -93,8 +84,20 @@ class MainScreen {
   }
 
   hide(){
-    for (let i  = this.container.children.length - 1; i >= 0; i--) {
-      this.container.removeChild(this.container.children[i]);
+    this.mainContainer.visible = false;
+  }
+
+  reset(){
+    this.mainContainer = new PIXI.Container();
+    this.mainContainer.position.x = window.innerWidth / 2 - config.MAX_WIDTH * config.STEP_SIZE / 2;
+    this.mainContainer.position.y = window.innerHeight /2 - config.MAX_WIDTH * config.STEP_SIZE;
+    let x = 0;
+    let y = 0;
+    for (x = 0; x <= config.MAX_WIDTH; x++) {
+      this.boardTiles[x] = [];
+      for (y = 0; y <= config.MAX_HEIGHT; y++) {
+        this.boardTiles[x][y] = 0;
+      }
     }
   }
 }

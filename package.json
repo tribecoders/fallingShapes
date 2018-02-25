@@ -5,8 +5,8 @@
     "start": "npm run watch",
     "watch": "webpack --config webpack.config.js --progress --inline --colors --watch",
     "build": "npm run build-production",
-    "build-production": "SET NODE_ENV=production && npm run build-app",
-    "build-dev": "SET NODE_ENV=dev && npm run build-app",
+    "build-production": "npm run build-app",
+    "build-dev": "npm run build-app",
     "build-app": "webpack --config webpack.config.js --progress --colors -p",
     "clean": "rm -fr build/app.js build/app.js.map"
   },

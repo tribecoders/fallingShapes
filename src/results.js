@@ -30,6 +30,10 @@ class Results {
     const resultsLength = this.bestScores.length -1;
     for (i=0; i < resultsLength; i++) {
       if (this.currentScore > this.bestScores[i]) {
+        let scoreIndex;
+        for (scoreIndex = i; scoreIndex < resultsLength ; scoreIndex++) {
+          this.bestScores[scoreIndex + 1] = this.bestScores[scoreIndex];
+        }
         this.bestScores[i] = this.currentScore;
         return
       }

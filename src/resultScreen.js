@@ -11,13 +11,19 @@ class ResultScreen {
     this.bestScores.anchor.set(0.5, 0.5);
     this.bestScores.x = window.innerWidth/2;
     this.bestScores.y = 100;
+
+    this.playAgain = new PIXI.Text('Press up to play again...', {
+      fill: '#ffffff'
+    });
+    this.playAgain.anchor.set(0.5, 0.5);
+    this.playAgain.x = window.innerWidth/2;
   }
 
-  display(bestResults) {
+  display(bestResults, playerScore) {
     this.container.addChild(this.bestScores);
     let i;
-    const resultsLength = bestResults.length - 1;
-    for (i = 0; i <= resultsLength; i++) {
+    const resultsLength = bestResults.length;
+    for (i = 0; i <= resultsLength - 1 ; i++) {
       let score = new PIXI.Text(bestResults[i], {
         fill: '#ffffff'
       });
@@ -25,6 +31,17 @@ class ResultScreen {
       score.x = window.innerWidth / 2;
       score.y = 140 + 40 * i;
       this.container.addChild(score);
+
+      let currentScore = new PIXI.Text('Your current score is: ' + (playerScore - 1), {
+        fill: '#ffffff'
+      });
+      currentScore.anchor.set(0.5, 0.5);
+      currentScore.x = window.innerWidth/2;
+      currentScore.y = 100 + 40 * (resultsLength + 1);
+      this.container.addChild(currentScore);
+
+      this.playAgain.y = 100 + 40 * (resultsLength + 2);
+      this.container.addChild(this.playAgain);
     }
   }
 

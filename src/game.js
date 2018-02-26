@@ -20,7 +20,7 @@ class Game {
     this.mainScreen = new MainScreen(container);
     this.resultScreen = new ResultScreen(container);
     this.results = new Results();
-    this.resetState();
+    this.reset();
 
     this.inMainGame = false;
   }
@@ -55,7 +55,7 @@ class Game {
       this.mainScreen.display(this.results.currentScore);
       this.mainScreen.displayShape(this.fallingShape);
     } else{
-      this.resultScreen.display(this.results.bestScores);
+      this.resultScreen.display(this.results.bestScores, this.results.currentScore);
     }
   }
 

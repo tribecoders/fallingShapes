@@ -20,10 +20,10 @@ class ResultScreen {
     for (i = 0; i <= resultsLength; i++) {
       let score = new PIXI.Text(bestResults[i], {
         fill: '#ffffff'
-      }) ;
+      });
       score.anchor.set(0.5, 0.5);
-      score.x = window.innerWidth/2;
-      score.y = 140 + 40*i;
+      score.x = window.innerWidth / 2;
+      score.y = 140 + 40 * i;
       this.container.addChild(score);
     }
   }

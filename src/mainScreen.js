@@ -15,6 +15,9 @@ class MainScreen {
     this.reset();
   }
 
+  /*
+   * Displays main screen with the board
+   */
   display(curentResult)  {
     this.container.addChild(this.mainContainer);
     this.mainContainer.removeChild(this.bestScores);
@@ -39,6 +42,9 @@ class MainScreen {
     }
   }
 
+  /*
+   * Displays currently falling shape
+   */
   displayShape(shape) {
     let row, col;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
@@ -50,8 +56,10 @@ class MainScreen {
     }
   }
 
+  /*
+   * Displays one single tile
+   */
   displayTileColour(x, y, colour) {
-
     if (y <0) {
       return;
     }
@@ -69,6 +77,9 @@ class MainScreen {
     this.mainContainer.addChild(tile);
   }
 
+  /*
+   * Converts shape that is falling to colours
+   */
   saveShape(shape){
     let row, col;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++) {
@@ -80,6 +91,9 @@ class MainScreen {
     }
   }
 
+  /*
+   * Remove array of lines to clear
+   */
   clearLines(linesToClear) {
     let col, row;
     for (let lineToClear of linesToClear) {
@@ -92,10 +106,16 @@ class MainScreen {
     }
   }
 
+  /*
+   * Hide the screen to switch to another
+   */
   hide(){
     this.mainContainer.visible = false;
   }
 
+  /*
+   * Resets screen state for next game
+   */
   reset(){
     this.mainContainer = new PIXI.Container();
     this.mainContainer.position.x = window.innerWidth / 2 - config.MAX_WIDTH * config.STEP_SIZE / 2;

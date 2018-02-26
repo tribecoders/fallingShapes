@@ -11,10 +11,16 @@ class Results {
     }
   }
 
+  /*
+   * Score for single element
+   */
   addElement() {
     this.currentScore += Results.SHAPE_SCORE;
   }
 
+  /*
+   * Score for lines
+   */
   addLine(numberOfLines) {
     this.currentScore += Results.LINES_SCORE[numberOfLines - 1];
   }

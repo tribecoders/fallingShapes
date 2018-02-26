@@ -14,7 +14,7 @@ let mainLoop = (delta) => {
 app.ticker.add(mainLoop);
 
 window.addEventListener(Game.GAME_EVENTS.gameStart, () => {
-  game.resetState();
+  game.reset();
   game.goMainGame();
 });
 

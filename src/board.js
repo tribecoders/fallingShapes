@@ -15,6 +15,9 @@ class Board {
     }
   }
 
+  /*
+   * Break falling shape to board single tiles
+   */
   shapeToBoard(shape) {
     let row, col;
     for(col = 0; col < Shape.NUMBER_OF_COLUMNS_AND_ROWS_PER_SHAPE; col++){
@@ -26,6 +29,9 @@ class Board {
     }
   }
 
+  /*
+   * Checks if board field is allowed to be taken by falling shape
+   */
   isFieldTaken(x, y) {
     if (y > config.MAX_HEIGHT || x > config.MAX_WIDTH || x - 1  < 0){
       return true;
@@ -34,6 +40,9 @@ class Board {
     return this.boardTiles[x-1][y-1] === 1;
   }
 
+  /*
+   * Check winning full lines
+   */
   findLinesToClear() {
     let x = 0, y = 0, row, col, isLineFull, linesToDelete = [];
     for (y = 0; y < config.MAX_HEIGHT; y++) {
